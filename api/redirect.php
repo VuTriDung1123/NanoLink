@@ -16,10 +16,12 @@ if (empty($code)) {
 }
 
 try {
-    // 1. Tìm kiếm link trong database
-    // Dùng LIMIT 1 để tối ưu tốc độ, truy vấn sẽ dừng ngay khi tìm thấy dòng đầu tiên khớp
-    $stmt = $pdo->prepare("SELECT id, original_url, expires_at FROM urls WHERE short_code = :code OR custom_alias = :code LIMIT 1");
-    $stmt->execute(['code' => $code]);
+    // 1. Tìm kiếm link trong database (Sửa :code thành :code1 và :code2)
+    $stmt = $pdo->prepare("SELECT id, original_url, expires_at FROM urls WHERE short_code = :code1 OR custom_alias = :code2 LIMIT 1");
+    $stmt->execute([
+        'code1' => $code,
+        'code2' => $code
+    ]);
     $urlData = $stmt->fetch();
 
     // 2. Kiểm tra sự tồn tại của liên kết
