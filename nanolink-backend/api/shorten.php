@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 header('Content-Type: application/json; charset=utf-8');
 // Cho phép CORS (Cross-Origin Resource Sharing) nếu sau này gọi từ domain khác
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
 require_once '../config/database.php';
@@ -19,6 +19,10 @@ use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
 // Chỉ chấp nhận request dạng POST
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405); // Method Not Allowed
     echo json_encode(["status" => "error", "message" => "Chỉ chấp nhận phương thức POST."]);

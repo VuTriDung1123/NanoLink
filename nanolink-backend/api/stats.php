@@ -6,11 +6,15 @@ error_reporting(E_ALL);
 // Cấu hình Header trả về JSON
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
 
 require_once '../config/database.php';
 
 // Chỉ chấp nhận request dạng GET
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
     echo json_encode(["status" => "error", "message" => "Chỉ chấp nhận phương thức GET."]);
