@@ -21,3 +21,7 @@
     RewriteRule ^([a-zA-Z0-9_-]+)$ api/redirect.php?code=$1 [L,QSA]
 
 </IfModule>
+
+<Files ".env">
+    Require all denied
+</Files>

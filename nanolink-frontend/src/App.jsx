@@ -15,7 +15,10 @@ export default function App() {
     setResult(null);
 
     try {
-      const response = await axios.post('http://nanolink.local/api/shorten', {
+      // Đọc địa chỉ API từ file .env (Nếu chạy local không có .env thì nó dùng mặc định nanolink.local)
+      const API_URL = import.meta.env.VITE_API_URL || 'http://nanolink.local';
+      
+      const response = await axios.post(`${API_URL}/api/shorten`, {
         original_url: originalUrl,
         custom_alias: customAlias || null
       });
