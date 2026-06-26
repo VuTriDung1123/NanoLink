@@ -1,12 +1,21 @@
 <?php
-// Cấu hình thông tin kết nối CSDL (Mặc định của XAMPP)
-$host     = '127.0.0.1'; // Sử dụng IP thay vì 'localhost' để tăng tốc độ kết nối trên một số hệ điều hành
-$db       = 'nanolink_db';
-$user     = 'root';
-$pass     = '';          // Mặc định của XAMPP để trống
-$charset  = 'utf8mb4';   // Đảm bảo đồng bộ bảng mã hiển thị tiếng Việt và ký tự đặc biệt
+// Đường dẫn trỏ ra ngoài thư mục gốc để tìm file .env
+$envPath = __DIR__ . '/../.env';
 
-// Data Source Name - Chuỗi cấu hình kết nối của PDO
+// Kiểm tra xem file .env có tồn tại không
+if (file_exists($envPath)) {
+    $env = parse_ini_file($envPath);
+} else {
+    die("Lỗi: Không tìm thấy file cấu hình môi trường (.env)");
+}
+
+// Lấy thông tin từ file .env
+$host     = $env['DB_HOST']; 
+$db       = $env['DB_NAME'];    
+$user     = $env['DB_USER'];             
+$pass     = $env['DB_PASS'];           
+$charset  = 'utf8mb4';
+
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 
 // Cấu hình các thuộc tính quan trọng cho PDO để tối ưu hiệu năng và bảo mật
